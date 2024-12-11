@@ -49,8 +49,10 @@ public class Window extends JPanel implements MouseListener, MouseMotionListener
             if (node.isClicked(e.getX(), e.getY())) {
                 if (graph.selectedNode == null) {
                     graph.selectedNode = node;
-                } else {
+                } else if (node != graph.selectedNode) {
                     graph.addEdge(graph.selectedNode, node, insertCost());
+                    graph.selectedNode = null;
+                } else {
                     graph.selectedNode = null;
                 }
                 return;
