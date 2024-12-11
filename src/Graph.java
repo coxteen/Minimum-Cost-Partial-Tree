@@ -103,4 +103,16 @@ public class Graph {
     public void switchGraphType(Graph graph) {
         graph.isOriented = !graph.isOriented;
     }
+
+    public void markSelectedEdges(ArrayList<Edge> edgeList) {
+        for (Edge edge : edgeList) {
+            edge.markEdge();
+        }
+    }
+
+    public void resetSelectedEdges() {
+        for (Edge edge : edges) {
+            edge.resetEdge();
+        }
+    }
 }

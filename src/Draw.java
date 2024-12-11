@@ -24,7 +24,7 @@ public class Draw {
         int differenceX = (int) (directionVector[0] * Node.radius / 2);
         int differenceY = (int) (directionVector[1] * Node.radius / 2);
 
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(edge.edgeColor);
 
         g2d.drawLine(
                 edge.endNode.x - differenceX,
@@ -41,7 +41,7 @@ public class Draw {
     }
 
     private static void drawCost(Graphics2D g2d, Edge edge) {
-        g2d.setColor(Color.BLACK);
+        g2d.setColor(edge.edgeColor);
         int middleX = (edge.endNode.x + edge.startNode.x) / 2;
         int middleY = (edge.endNode.y + edge.startNode.y) / 2;
         g2d.fillRoundRect(
@@ -54,7 +54,7 @@ public class Draw {
         );
 
         Font font = new Font(edge.costFont, Font.BOLD, edge.costFontSize);
-        g2d.setColor(Color.WHITE);
+        g2d.setColor(edge.costFontColor);
         g2d.setFont(font);
         if (edge.cost < 10) {
             g2d.drawString(String.valueOf(edge.cost), middleX - 3, middleY + 4);
@@ -66,7 +66,7 @@ public class Draw {
 
     private static void drawEdge(Graphics2D g2d, Graph graph, Edge edge) {
         g2d.setColor(edge.edgeColor);
-        g2d.setStroke(new BasicStroke(edge.LINE_WIDTH));
+        g2d.setStroke(new BasicStroke(edge.lineWidth));
         g2d.drawLine(edge.startNode.x, edge.startNode.y, edge.endNode.x, edge.endNode.y);
         if (graph.isOriented) {
             drawArrows(g2d, edge);

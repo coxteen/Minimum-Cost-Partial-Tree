@@ -1,6 +1,5 @@
 import javax.swing.*;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -47,6 +46,28 @@ public class Window extends JPanel implements MouseListener, MouseMotionListener
             if (button.isClicked(e.getX(), e.getY())) {
                 if (button == menu.getIsOrientedButton()) {
                     graph.switchGraphType(graph);
+                    button.switchButtonState();
+                    return;
+                }
+                if (button == menu.getKruskalAlgButton()) {
+                    if (button.selected) {
+                        graph.resetSelectedEdges();
+                    }
+                    else {
+                        ArrayList<Edge> partialTreeEdges = KruskalAlgorithm.getTreeWithKruskal(graph);
+                        graph.markSelectedEdges(partialTreeEdges);
+                    }
+                    button.switchButtonState();
+                    return;
+                }
+                if (button == menu.getBoruvkaAlgButton()) {
+                    if (button.selected) {
+                        graph.resetSelectedEdges();
+                    }
+                    else {
+                        ArrayList<Edge> partialTreeEdges = BoruvkaAlgorithm.getTreeWithBoruvka(graph);
+                        graph.markSelectedEdges(partialTreeEdges);
+                    }
                     button.switchButtonState();
                     return;
                 }
