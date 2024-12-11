@@ -4,15 +4,19 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 public class Window extends JPanel implements MouseListener, MouseMotionListener {
 
-    private final RadioButton button = new RadioButton();
-
     private final Graph graph = new Graph();
+
+    Menu menu = new Menu();
+
+    ArrayList<RadioButton> buttons = menu.getRadioButtons();
 
     private boolean dragging = false;
     private Node draggedNode = null;
+
     private int dragOffsetX, dragOffsetY;
     private int initialPositionX, initialPositionY;
 
@@ -25,7 +29,7 @@ public class Window extends JPanel implements MouseListener, MouseMotionListener
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        Draw.draw(g2d, graph, button);
+        Draw.draw(g2d, graph, buttons, menu);
     }
 
     private int insertCost() {
@@ -39,10 +43,16 @@ public class Window extends JPanel implements MouseListener, MouseMotionListener
     }
 
     private void leftClickAction(MouseEvent e){
-        if (button.isClicked(e.getX(), e.getY())) {
-            button.switchGraphType(graph);
-            graph.printAdjacentLists();
-            graph.printCosts();
+        for (RadioButton button : buttons) {
+            if (button.isClicked(e.getX(), e.getY())) {
+                if (button == menu.getIsOrientedButton()) {
+                    graph.switchGraphType(graph);
+                    button.switchButtonState();
+                    return;
+                }
+            }
+        }
+        if (e.getX() <= menu.menuRightLimit + Node.radius / 2) {
             return;
         }
         for (Node node : graph.nodes) {
@@ -100,7 +110,7 @@ public class Window extends JPanel implements MouseListener, MouseMotionListener
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (dragging && draggedNode != null && graph.isOverlapping(draggedNode)) {
+        if (dragging && draggedNode != null && (graph.isOverlapping(draggedNode) || e.getX() <= menu.menuRightLimit + Node.radius / 2)) {
             draggedNode.x = initialPositionX;
             draggedNode.y = initialPositionY;
         }

@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Font;
+import java.util.ArrayList;
 
 public class Draw {
 
@@ -22,6 +23,8 @@ public class Draw {
 
         int differenceX = (int) (directionVector[0] * Node.radius / 2);
         int differenceY = (int) (directionVector[1] * Node.radius / 2);
+
+        g2d.setColor(Color.BLACK);
 
         g2d.drawLine(
                 edge.endNode.x - differenceX,
@@ -50,14 +53,14 @@ public class Draw {
                 edge.rectRadius
         );
 
-        Font font = new Font(Node.font_name, Font.BOLD, edge.costFontSize);
+        Font font = new Font(edge.costFont, Font.BOLD, edge.costFontSize);
         g2d.setColor(Color.WHITE);
         g2d.setFont(font);
         if (edge.cost < 10) {
             g2d.drawString(String.valueOf(edge.cost), middleX - 3, middleY + 4);
         }
         else {
-            g2d.drawString(String.valueOf(edge.cost), middleX - 6, middleY + 4);
+            g2d.drawString(String.valueOf(edge.cost), middleX - 6, middleY + 3);
         }
     }
 
@@ -65,7 +68,6 @@ public class Draw {
         g2d.setColor(edge.edgeColor);
         g2d.setStroke(new BasicStroke(edge.LINE_WIDTH));
         g2d.drawLine(edge.startNode.x, edge.startNode.y, edge.endNode.x, edge.endNode.y);
-        drawCost(g2d, edge);
         if (graph.isOriented) {
             drawArrows(g2d, edge);
         }
@@ -82,7 +84,7 @@ public class Draw {
     }
 
     private static void drawNumber(Graphics2D g2d, Node node) {
-        Font font = new Font(Node.font_name, Font.BOLD, node.fontSize);
+        Font font = new Font(node.fontName, Font.BOLD, node.fontSize);
         g2d.setFont(font);
         g2d.setColor(Color.BLACK);
         if (node.value < 10) {
@@ -95,30 +97,45 @@ public class Draw {
 
     private static void drawButton(Graphics2D g2d, RadioButton button) {
         g2d.setStroke(new BasicStroke(button.strokeWidth));
-        g2d.drawOval(button.x - button.radius / 2, button.y - button.radius / 2, button.radius, button.radius);
+        g2d.drawOval(button.bX - button.radius / 2, button.bY - button.radius / 2, button.radius, button.radius);
 
         if (button.selected) {
             g2d.setColor(Color.BLACK);
             g2d.fillOval(
-                    button.x - button.radius / 4,
-                    button.y - button.radius / 4,
+                    button.bX - button.radius / 4,
+                    button.bY - button.radius / 4,
                     button.radius / 2,
                     button.radius / 2
             );
         }
-        g2d.setFont(new Font(Node.font_name, Font.BOLD, 16));
+
+        g2d.setFont(new Font(button.font, Font.BOLD, button.fontSize));
         g2d.setColor(Color.BLACK);
-        g2d.drawString("Orientat", 60, 38);
+        g2d.drawString(button.label, button.lX, button.lY);
     }
 
-    public static void draw(Graphics2D g2d, Graph graph, RadioButton button) {
+    public static void drawMenu(Graphics2D g2d, Menu menu) {
+        g2d.setColor(Color.BLACK);
+        g2d.drawLine(
+                menu.menuRightLimit,
+                0,
+                menu.menuRightLimit,
+                2000
+        );
+    }
+
+    public static void draw(Graphics2D g2d, Graph graph, ArrayList<RadioButton> buttons, Menu menu) {
         for (Edge edge : graph.edges) {
             drawEdge(g2d, graph, edge);
+            drawCost(g2d, edge);
         }
         for (Node node : graph.nodes) {
             drawNode(g2d, node, graph.selectedNode);
             drawNumber(g2d, node);
         }
-        drawButton(g2d, button);
+        for (RadioButton button : buttons) {
+            drawButton(g2d, button);
+        }
+        drawMenu(g2d, menu);
     }
 }

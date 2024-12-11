@@ -4,13 +4,13 @@ public class Node {
 
     public int x, y;
     public static int radius = 60;
-    public Color nodeColor = Color.GREEN;
+    public Color nodeColor = Color.ORANGE;
     public Color selectedNodeColor = Color.GRAY;
 
     public int value;
 
     public int fontSize = radius / 2;
-    public static String font_name = "Arial";
+    public String fontName = "Arial";
 
     public Node(int x, int y, int value) {
         this.x = x;

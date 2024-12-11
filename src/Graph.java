@@ -100,30 +100,7 @@ public class Graph {
         addInAdjacentList(edge.endNode, edge.startNode);
     }
 
-    public void printAdjacentLists() {
-        System.out.println("Adjacent lists:");
-        for (Node node : adjacentList.keySet()) {
-            System.out.print(node.value + " : ");
-            for (Node neighbour : adjacentList.get(node)) {
-                System.out.print(neighbour.value + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println("Oriented adjacent lists:");
-        for (Node node : orientedAdjacentList.keySet()) {
-            System.out.print(node.value + " : ");
-            for (Node neighbour : orientedAdjacentList.get(node)) {
-                System.out.print(neighbour.value + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    public void printCosts() {
-        for (Edge edge : edges) {
-            System.out.println(edge.startNode.value + " - " + edge.endNode.value + " : " + edge.cost);
-        }
+    public void switchGraphType(Graph graph) {
+        graph.isOriented = !graph.isOriented;
     }
 }

@@ -6,11 +6,11 @@ public class Edge {
     public Color edgeColor = Color.BLACK;
 
     public int cost;
-    public int costFontSize = 12;
+    public int costFontSize = 13;
     public String costFont = "Arial";
 
-    public int rectWidth = 30;
-    public int rectHeight = 20;
+    public int rectWidth = 23;
+    public int rectHeight = 23;
 
     public int rectRadius = 3;
 
